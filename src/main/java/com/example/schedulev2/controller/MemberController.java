@@ -1,16 +1,14 @@
 package com.example.schedulev2.controller;
 
 
+import com.example.schedulev2.dto.MemberResponseDto;
 import com.example.schedulev2.dto.SignUpRequestDto;
 import com.example.schedulev2.dto.SignUpResponseDto;
 import com.example.schedulev2.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,10 +20,16 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto requestDto) {
 
-        memberService.signUp(requestDto);
+        SignUpResponseDto signUpResponseDto = memberService.signUp(requestDto);
 
-        return new ResponseEntity<>( HttpStatus.CREATED);
+        return new ResponseEntity<>(signUpResponseDto,HttpStatus.CREATED);
 
+    }
+
+    @GetMapping("/members/{id}")
+    public ResponseEntity<MemberResponseDto> findById(@PathVariable Long id) {
+        MemberResponseDto findById = memberService.findById(id);
+        return new ResponseEntity<>(findById,HttpStatus.OK);
     }
 
 
