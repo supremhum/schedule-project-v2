@@ -30,4 +30,9 @@ public class Member extends BaseEntity{
     public Member() {
     }
 
+    public void updatePassword(String oldPassword,String newPassword) {
+        if (this.password.equals(oldPassword)){
+            this.password=newPassword;
+        }
+    }
 }

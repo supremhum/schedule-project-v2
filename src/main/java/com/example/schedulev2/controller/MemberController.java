@@ -4,6 +4,7 @@ package com.example.schedulev2.controller;
 import com.example.schedulev2.dto.MemberResponseDto;
 import com.example.schedulev2.dto.SignUpRequestDto;
 import com.example.schedulev2.dto.SignUpResponseDto;
+import com.example.schedulev2.dto.UpdatePasswordRequestDto;
 import com.example.schedulev2.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,14 @@ public class MemberController {
         return new ResponseEntity<>(findById,HttpStatus.OK);
     }
 
+    @PatchMapping("/members/{id}")
+    public ResponseEntity<Void> updatePassword(
+            @PathVariable Long id,
+            @RequestBody UpdatePasswordRequestDto passwordRequestDto
+    ) {
+        memberService.updatePassword(id,passwordRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 }
