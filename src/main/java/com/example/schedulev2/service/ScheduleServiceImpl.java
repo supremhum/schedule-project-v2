@@ -1,8 +1,8 @@
 package com.example.schedulev2.service;
 
-import com.example.schedulev2.dto.schedule.CreateScheduleRequestDto;
+import com.example.schedulev2.dto.schedule.ScheduleCreateRequestDto;
 import com.example.schedulev2.dto.schedule.ScheduleResponseDto;
-import com.example.schedulev2.dto.schedule.UpdateScheduleRequestDto;
+import com.example.schedulev2.dto.schedule.ScheduleUpdateRequestDto;
 import com.example.schedulev2.entity.Member;
 import com.example.schedulev2.entity.Schedule;
 import com.example.schedulev2.repository.MemberRepository;
@@ -24,7 +24,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
 //    @Transactional
     @Override
-    public ScheduleResponseDto save(CreateScheduleRequestDto requestDto) {
+    public ScheduleResponseDto save(ScheduleCreateRequestDto requestDto) {
 
         Member findMember = memberRepository.findMemberByEmailOrElseThrow(requestDto.getEmail());
 
@@ -65,7 +65,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Transactional
     @Override
-    public ScheduleResponseDto updateSchedule(Long id, UpdateScheduleRequestDto dto) {
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto dto) {
         // id에 해당하는 memberId를 가지고 member에서 찾은 뒤 거기에 있는 비밀번호와 dto의 비밀번호가 맞는지 확인한다
         Schedule findById = scheduleRepository.findByIdOrElseThrow(id);
 //        findById.getMember().getPassword();

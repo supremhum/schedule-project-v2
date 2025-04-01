@@ -14,6 +14,11 @@ public class MemberResponseDto {
         this.name = name;
     }
 
+    public MemberResponseDto(Member member) {
+        this.email = member.getEmail();
+        this.name = member.getName();
+    }
+
     public static MemberResponseDto toDto(Member member) {
         return new MemberResponseDto(member.getEmail(),member.getName());
     }

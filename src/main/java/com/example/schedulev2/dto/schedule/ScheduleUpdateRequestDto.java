@@ -5,7 +5,7 @@ import lombok.Getter;
 
 
 @Getter
-public class UpdateScheduleRequestDto {
+public class ScheduleUpdateRequestDto {
     @NotNull
     private final String author;
     @NotNull
@@ -14,7 +14,7 @@ public class UpdateScheduleRequestDto {
     private final String description;
     private final String password;
 
-    public UpdateScheduleRequestDto(String author, String title, String description, String password) {
+    public ScheduleUpdateRequestDto(String author, String title, String description, String password) {
         this.author = author;
         this.title = title;
         this.description = description;

@@ -1,19 +1,22 @@
 package com.example.schedulev2.service;
 
-import com.example.schedulev2.dto.member.MemberResponseDto;
-import com.example.schedulev2.dto.member.SignUpRequestDto;
-import com.example.schedulev2.dto.member.SignUpResponseDto;
-import com.example.schedulev2.dto.member.UpdatePasswordRequestDto;
+import com.example.schedulev2.dto.member.*;
 import com.example.schedulev2.entity.Member;
+import com.example.schedulev2.entity.Schedule;
 import com.example.schedulev2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import jakarta.persistence.criteria.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +42,29 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public List<MemberResponseDto> search(MemberSearchRequestDto dto) {
+        Specification<Member> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(dto.getEmail())) {
+                predicates.add(cb.equal(root.get("email"), dto.getEmail()));
+            }
+
+            if (StringUtils.hasText(dto.getName())) {
+                predicates.add(cb.equal(root.get("name"), dto.getName()));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        List<Member> members = memberRepository.findAll(spec);
+
+        return members.stream()
+                .map(MemberResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public MemberResponseDto findById(Long id) {
         Optional<Member> optionalMember = memberRepository.findById(id);
         if (optionalMember.isEmpty()) {
@@ -50,7 +76,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Transactional
     @Override
-    public void updatePassword(Long id, UpdatePasswordRequestDto passwordRequestDto) {
+    public void updatePassword(Long id, PasswordUpdateRequestDto passwordRequestDto) {
         Member findMember = memberRepository.findByIdOrElseThrow(id);
 
         if (!findMember.getPassword().equals(passwordRequestDto.getOldPassword())) {
