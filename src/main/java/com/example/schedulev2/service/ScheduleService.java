@@ -9,4 +9,6 @@ public interface ScheduleService {
     ScheduleResponseDto save(CreateScheduleRequestDto requestDto);
 
     List<ScheduleResponseDto> findAll();
+
+    ScheduleResponseDto findById(Long id);
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -46,5 +47,11 @@ public class ScheduleServiceImpl implements ScheduleService{
                 .map(ScheduleResponseDto::toDto)
                 .toList();
 
+    }
+
+    @Override
+    public ScheduleResponseDto findById(Long id) {
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+        return new ScheduleResponseDto(findSchedule.getId(),findSchedule.getAuthor(),findSchedule.getTitle(),findSchedule.getDescription());
     }
 }
