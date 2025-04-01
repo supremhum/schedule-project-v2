@@ -1,4 +1,4 @@
-package com.example.schedulev2.dto;
+package com.example.schedulev2.dto.schedule;
 
 import com.example.schedulev2.entity.Schedule;
 import lombok.Getter;

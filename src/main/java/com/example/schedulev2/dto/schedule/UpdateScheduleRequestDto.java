@@ -1,11 +1,11 @@
-package com.example.schedulev2.dto;
+package com.example.schedulev2.dto.schedule;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 
 @Getter
-public class ScheduleUpdateRequestDto {
+public class UpdateScheduleRequestDto {
     @NotNull
     private final String author;
     @NotNull
@@ -14,7 +14,7 @@ public class ScheduleUpdateRequestDto {
     private final String description;
     private final String password;
 
-    public ScheduleUpdateRequestDto(String author, String title, String description,String password) {
+    public UpdateScheduleRequestDto(String author, String title, String description, String password) {
         this.author = author;
         this.title = title;
         this.description = description;

@@ -1,9 +1,9 @@
 package com.example.schedulev2.service;
 
-import com.example.schedulev2.dto.MemberResponseDto;
-import com.example.schedulev2.dto.SignUpRequestDto;
-import com.example.schedulev2.dto.SignUpResponseDto;
-import com.example.schedulev2.dto.UpdatePasswordRequestDto;
+import com.example.schedulev2.dto.member.MemberResponseDto;
+import com.example.schedulev2.dto.member.SignUpRequestDto;
+import com.example.schedulev2.dto.member.SignUpResponseDto;
+import com.example.schedulev2.dto.member.UpdatePasswordRequestDto;
 import com.example.schedulev2.entity.Member;
 import com.example.schedulev2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,14 @@ public class MemberServiceImpl implements MemberService{
         Member member = new Member(requestDto.getEmail(),requestDto.getPassword(),requestDto.getName());
         Member saveMember = memberRepository.save(member);
         return new SignUpResponseDto(saveMember.getId(), saveMember.getEmail(), saveMember.getName());
+    }
+
+    @Override
+    public List<MemberResponseDto> findAll() {
+        return memberRepository.findAll()
+                .stream()
+                .map(MemberResponseDto::toDto)
+                .toList();
     }
 
     @Override
@@ -52,5 +61,7 @@ public class MemberServiceImpl implements MemberService{
         findMember.updatePassword(passwordRequestDto.getNewPassword());
 
     }
+
+
 
 }
