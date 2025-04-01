@@ -37,4 +37,14 @@ public class Schedule extends BaseEntity{
     public void setMember(Member member) {
         this.member = member;
     }
+
+    public void updateSchedule (String title, String author, String description) {
+        if (title!=null) {
+            this.title=title;
+        } if (description!=null) {
+            this.description=description;
+        } if (author!=null) {
+            this.author=author;
+        }
+    }
 }

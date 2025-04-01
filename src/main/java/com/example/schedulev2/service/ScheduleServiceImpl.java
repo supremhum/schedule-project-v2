@@ -2,13 +2,17 @@ package com.example.schedulev2.service;
 
 import com.example.schedulev2.dto.CreateScheduleRequestDto;
 import com.example.schedulev2.dto.ScheduleResponseDto;
+import com.example.schedulev2.dto.ScheduleUpdateRequestDto;
+import com.example.schedulev2.dto.UpdatePasswordRequestDto;
 import com.example.schedulev2.entity.Member;
 import com.example.schedulev2.entity.Schedule;
 import com.example.schedulev2.repository.MemberRepository;
 import com.example.schedulev2.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,4 +64,21 @@ public class ScheduleServiceImpl implements ScheduleService{
         Schedule schedule = scheduleRepository.findByIdOrElseThrow(id);
         scheduleRepository.delete(schedule);
     }
+
+    @Transactional
+    @Override
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto dto) {
+        // id에 해당하는 memberId를 가지고 member에서 찾은 뒤 거기에 있는 비밀번호와 dto의 비밀번호가 맞는지 확인한다
+        Schedule findById = scheduleRepository.findByIdOrElseThrow(id);
+//        findById.getMember().getPassword();
+        if (!findById.getMember().getPassword().equals(dto.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"비밀번호 불일치");
+        }
+        // 비밀번호가 맞았으니 수정이 들어간다
+        findById.updateSchedule(dto.getTitle(),dto.getAuthor(),dto.getDescription());
+        return new ScheduleResponseDto(findById.getId(),findById.getAuthor(),findById.getTitle(),findById.getDescription());
+
+//        return null;
+    }
+
 }

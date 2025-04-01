@@ -2,10 +2,14 @@ package com.example.schedulev2.controller;
 
 import com.example.schedulev2.dto.CreateScheduleRequestDto;
 import com.example.schedulev2.dto.ScheduleResponseDto;
+import com.example.schedulev2.dto.ScheduleUpdateRequestDto;
+import com.example.schedulev2.entity.Schedule;
 import com.example.schedulev2.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +41,14 @@ public class ScheduleController {
         ScheduleResponseDto responseDto = scheduleService.findById(id);
         return new ResponseEntity<>(responseDto,HttpStatus.OK);
     }
+
+    @PutMapping("/schedules/{id}")
+    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable Long id,@Valid @RequestBody ScheduleUpdateRequestDto dto) {
+        ScheduleResponseDto responseDto = scheduleService.updateSchedule(id, dto);
+        return new ResponseEntity<>(responseDto,HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/schedules/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         scheduleService.delete(id);
