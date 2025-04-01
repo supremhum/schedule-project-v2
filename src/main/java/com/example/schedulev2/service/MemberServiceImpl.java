@@ -43,9 +43,12 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void updatePassword(Long id, UpdatePasswordRequestDto passwordRequestDto) {
         Member findMember = memberRepository.findByIdOrElseThrow(id);
+
         if (!findMember.getPassword().equals(passwordRequestDto.getOldPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Password does not match");
         }
+
+        // findMember.setPassword(); <<< 요 매소드만 세터다.
         findMember.updatePassword(passwordRequestDto.getNewPassword());
 
     }

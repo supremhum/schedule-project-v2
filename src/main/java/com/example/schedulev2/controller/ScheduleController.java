@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api")
@@ -22,6 +24,12 @@ public class ScheduleController {
         ScheduleResponseDto scheduleResponseDto = scheduleService.save(requestDto);
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.CREATED);
 
+    }
+
+    @GetMapping("/schedules")
+    public ResponseEntity<List<ScheduleResponseDto>> findAll() {
+        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAll();
+        return new ResponseEntity<>(scheduleResponseDtoList,HttpStatus.OK);
     }
 
 }
