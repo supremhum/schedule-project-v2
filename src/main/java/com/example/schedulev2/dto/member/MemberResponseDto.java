@@ -3,6 +3,8 @@ package com.example.schedulev2.dto.member;
 import com.example.schedulev2.entity.Member;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Getter
 public class MemberResponseDto {
 

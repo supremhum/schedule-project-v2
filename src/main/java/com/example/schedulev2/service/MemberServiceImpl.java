@@ -65,13 +65,13 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberResponseDto findById(Long id) {
+    public MemberByIdResponseDto findById(Long id) {
         Optional<Member> optionalMember = memberRepository.findById(id);
         if (optionalMember.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exist id : " + id);
         }
         Member member = optionalMember.get();
-        return new MemberResponseDto(member.getEmail(), member.getName());
+        return new MemberByIdResponseDto(member.getEmail(), member.getName(),member.getCreatedAt(),member.getModifiedAt());
     }
 
     @Transactional

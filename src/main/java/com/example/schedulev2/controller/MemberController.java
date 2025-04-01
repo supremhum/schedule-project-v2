@@ -41,10 +41,10 @@ public class MemberController {
         return new ResponseEntity<>(findAllList,HttpStatus.OK);
     }
 
-    // 이름 이메일 생성일 수정일 나오게 한다.
+    // 이름 이메일 생성일,수정일(yyyy-mm-dd) 나오게 한다.
     @GetMapping("/members/{id}")
-    public ResponseEntity<MemberResponseDto> findById(@PathVariable Long id) {
-        MemberResponseDto findById = memberService.findById(id);
+    public ResponseEntity<MemberByIdResponseDto> findById(@PathVariable Long id) {
+        MemberByIdResponseDto findById = memberService.findById(id);
         return new ResponseEntity<>(findById,HttpStatus.OK);
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MemberService {
     SignUpResponseDto signUp(SignUpRequestDto requestDto);
-    MemberResponseDto findById(Long id);
+    MemberByIdResponseDto findById(Long id);
 
     void updatePassword(Long id, PasswordUpdateRequestDto passwordRequestDto);
 
