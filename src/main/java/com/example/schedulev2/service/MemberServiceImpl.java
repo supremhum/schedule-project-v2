@@ -46,8 +46,7 @@ public class MemberServiceImpl implements MemberService{
         if (!findMember.getPassword().equals(passwordRequestDto.getOldPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Password does not match");
         }
-        findMember.updatePassword(passwordRequestDto.getOldPassword(), passwordRequestDto.getNewPassword());
-
+        findMember.updatePassword(passwordRequestDto.getNewPassword());
 
     }
 

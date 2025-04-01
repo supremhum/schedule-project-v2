@@ -26,4 +26,15 @@ public class Schedule extends BaseEntity{
     @JoinColumn(name="member_id")
     private Member member;
 
+    public Schedule(String title, String author, String description) {
+        this.title = title;
+        this.author = author;
+        this.description = description;
+    }
+
+    public Schedule() {}
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 }
