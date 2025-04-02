@@ -1,10 +1,12 @@
 package com.example.schedulev2.dto.schedule;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
 public class ScheduleCreateRequestDto {
 
+    @NotNull
     private final String email;
     private final String author;
     private final String title;
