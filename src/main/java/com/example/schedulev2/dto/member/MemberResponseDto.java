@@ -3,8 +3,6 @@ package com.example.schedulev2.dto.member;
 import com.example.schedulev2.entity.Member;
 import lombok.Getter;
 
-import java.time.LocalDate;
-
 @Getter
 public class MemberResponseDto {
 
@@ -21,7 +19,7 @@ public class MemberResponseDto {
         this.name = member.getName();
     }
 
-    public static MemberResponseDto toDto(Member member) {
-        return new MemberResponseDto(member.getEmail(),member.getName());
-    }
+//    public static MemberResponseDto toDto(Member member) {
+//        return new MemberResponseDto(member.getEmail(),member.getName());
+//    }
 }

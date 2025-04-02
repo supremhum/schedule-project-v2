@@ -2,7 +2,6 @@ package com.example.schedulev2.service;
 
 import com.example.schedulev2.dto.member.*;
 import com.example.schedulev2.entity.Member;
-import com.example.schedulev2.entity.Schedule;
 import com.example.schedulev2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,32 +32,27 @@ public class MemberServiceImpl implements MemberService{
         return new SignUpResponseDto(saveMember.getId(), saveMember.getEmail(), saveMember.getName());
     }
 
-    @Override
-    public List<MemberResponseDto> findAll() {
-        return memberRepository.findAll()
-                .stream()
-                .map(MemberResponseDto::toDto)
-                .toList();
-    }
+//    @Override
+//    public List<MemberResponseDto> findAll() {
+//        return memberRepository.findAll()
+//                .stream()
+//                .map(MemberResponseDto::toDto)
+//                .toList();
+//    }
 
     @Override
     public List<MemberResponseDto> search(MemberSearchRequestDto dto) {
         Specification<Member> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
-
             if (StringUtils.hasText(dto.getEmail())) {
                 predicates.add(cb.equal(root.get("email"), dto.getEmail()));
             }
-
             if (StringUtils.hasText(dto.getName())) {
                 predicates.add(cb.equal(root.get("name"), dto.getName()));
             }
-
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-
         List<Member> members = memberRepository.findAll(spec);
-
         return members.stream()
                 .map(MemberResponseDto::new)
                 .collect(Collectors.toList());
@@ -76,8 +70,19 @@ public class MemberServiceImpl implements MemberService{
 
     @Transactional
     @Override
+    public MemberResponseDto updateById(Long id, MemberUpdateRequestDto requestDto) {
+        Member findMember = memberRepository.findMemberByIdOrElseThrow(id);
+        if (!findMember.getPassword().equals(requestDto.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Password does not match");
+        }
+        findMember.updateNameOrEmail(requestDto.getName(),requestDto.getEmail());
+        return new MemberResponseDto(findMember);
+    }
+
+    @Transactional
+    @Override
     public void updatePassword(Long id, PasswordUpdateRequestDto passwordRequestDto) {
-        Member findMember = memberRepository.findByIdOrElseThrow(id);
+        Member findMember = memberRepository.findMemberByIdOrElseThrow(id);
 
         if (!findMember.getPassword().equals(passwordRequestDto.getOldPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Password does not match");

@@ -27,7 +27,7 @@ public class MemberByIdResponseDto {
         this.modifiedAt = member.getModifiedAt().toLocalDate();
     }
 
-//    public static MemberResponseDto toDto(Member member) {
-//        return new MemberResponseDto(member.getEmail(),member.getName());
-//    }
+    public static MemberResponseDto toDto(Member member) {
+        return new MemberResponseDto(member.getEmail(),member.getName());
+    }
 }

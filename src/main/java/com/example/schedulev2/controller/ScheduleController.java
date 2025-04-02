@@ -40,12 +40,14 @@ public class ScheduleController {
         return new ResponseEntity<>(responseDto,HttpStatus.OK);
     }
 
+    // 해당 id의 이름,제목,내용을 전부 바꾼다. 모두 notnull . 비밀번호 필요
     @PutMapping("/schedules/{id}")
     public ResponseEntity<ScheduleResponseDto> updateById(@PathVariable Long id,@Valid @RequestBody ScheduleUpdateRequestDto dto) {
         ScheduleResponseDto responseDto = scheduleService.updateSchedule(id, dto);
         return new ResponseEntity<>(responseDto,HttpStatus.OK);
     }
 
+    // 해당 id의 이름 또는 제목 또는 내용을 바꾼다. null 인 경우는 바꾸지 않는다(Schedule Entity 내부 method 로직). 비밀번호 필요
     @PatchMapping("/schedules/{id}")
     public ResponseEntity<ScheduleResponseDto> patchById(@PathVariable Long id,@RequestBody ScheduleUpdateRequestDto dto) {
         ScheduleResponseDto responseDto = scheduleService.updateSchedule(id, dto);

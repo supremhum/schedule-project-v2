@@ -3,6 +3,7 @@ package com.example.schedulev2.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 @Getter
 @Entity
@@ -33,5 +34,14 @@ public class Member extends BaseEntity{
 
     public void updatePassword(String newPassword) {
             this.password=newPassword;
+    }
+
+    public void updateNameOrEmail(String name,String email) {
+        if (StringUtils.hasText(name)) {
+            this.name=name;
+        } if (StringUtils.hasText(email)) {
+            this.email=email;
+        }
+
     }
 }

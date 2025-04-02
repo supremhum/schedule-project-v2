@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member,Long>, JpaSpecificationExecutor<Member> {
-    default Member findByIdOrElseThrow(Long id) {
+    default Member findMemberByIdOrElseThrow(Long id) {
         return findById(id)
                 .orElseThrow(() ->
                         new ResponseStatusException(

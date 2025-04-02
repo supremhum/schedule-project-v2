@@ -10,7 +10,9 @@ public interface MemberService {
 
     void updatePassword(Long id, PasswordUpdateRequestDto passwordRequestDto);
 
-    List<MemberResponseDto> findAll();
+//    List<MemberResponseDto> findAll();
 
     List<MemberResponseDto> search(MemberSearchRequestDto dto);
+
+    MemberResponseDto updateById(Long id, MemberUpdateRequestDto requestDto);
 }
