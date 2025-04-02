@@ -68,6 +68,11 @@ public class MemberController {
     }
 
     // 삭제 매서드 비밀번호가 맞아야 삭제 가능하다
+    @DeleteMapping("/members/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id,@RequestBody MemberDeleteRequestDto requestDto) {
+        memberService.delete(id,requestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 }

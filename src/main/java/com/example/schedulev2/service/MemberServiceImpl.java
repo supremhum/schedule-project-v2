@@ -2,6 +2,7 @@ package com.example.schedulev2.service;
 
 import com.example.schedulev2.dto.member.*;
 import com.example.schedulev2.entity.Member;
+import com.example.schedulev2.entity.Schedule;
 import com.example.schedulev2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -101,6 +102,7 @@ public class MemberServiceImpl implements MemberService{
         return new MemberResponseDto(findMember);
     }
 
+
     @Transactional
     @Override
     public void updatePassword(Long id, PasswordUpdateRequestDto passwordRequestDto) {
@@ -112,9 +114,17 @@ public class MemberServiceImpl implements MemberService{
 
         // findMember.setPassword(); <<< 요 매소드만 세터다.
         findMember.updatePassword(passwordRequestDto.getNewPassword());
-
     }
 
+    @Transactional
+    @Override
+    public void delete(Long id,MemberDeleteRequestDto requestDto) {
+        Member member = memberRepository.findMemberByIdOrElseThrow(id);
+        if (!member.getPassword().equals(requestDto.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Password does not match");
+        }
+        memberRepository.delete(member);
 
+    }
 
 }

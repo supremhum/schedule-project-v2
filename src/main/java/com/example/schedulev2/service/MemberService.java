@@ -15,4 +15,6 @@ public interface MemberService {
     List<MemberResponseDto> search(MemberSearchRequestDto dto);
 
     MemberResponseDto updateById(Long id, MemberUpdateRequestDto requestDto);
+
+    void delete(Long id,MemberDeleteRequestDto requestDto);
 }
