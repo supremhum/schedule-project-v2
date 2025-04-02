@@ -1,6 +1,7 @@
 package com.example.schedulev2.service;
 
 import com.example.schedulev2.dto.schedule.ScheduleCreateRequestDto;
+import com.example.schedulev2.dto.schedule.ScheduleDeleteRequestDto;
 import com.example.schedulev2.dto.schedule.ScheduleResponseDto;
 import com.example.schedulev2.dto.schedule.ScheduleUpdateRequestDto;
 import com.example.schedulev2.entity.Member;
@@ -57,11 +58,6 @@ public class ScheduleServiceImpl implements ScheduleService{
         return new ScheduleResponseDto(findSchedule.getId(),findSchedule.getAuthor(),findSchedule.getTitle(),findSchedule.getDescription());
     }
 
-    @Override
-    public void delete(Long id) {
-        Schedule schedule = scheduleRepository.findByIdOrElseThrow(id);
-        scheduleRepository.delete(schedule);
-    }
 
     @Transactional
     @Override
@@ -76,6 +72,15 @@ public class ScheduleServiceImpl implements ScheduleService{
         findById.updateSchedule(dto.getTitle(),dto.getAuthor(),dto.getDescription());
         return new ScheduleResponseDto(findById.getId(),findById.getAuthor(),findById.getTitle(),findById.getDescription());
 
+    }
+
+    @Override
+    public void delete(Long id, ScheduleDeleteRequestDto requestDto) {
+        Schedule findById = scheduleRepository.findByIdOrElseThrow(id);
+        if (!findById.getMember().getPassword().equals(requestDto.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"비밀번호 불일치");
+        }
+        scheduleRepository.delete(findById);
     }
 
 }

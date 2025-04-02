@@ -116,7 +116,6 @@ public class MemberServiceImpl implements MemberService{
         findMember.updatePassword(passwordRequestDto.getNewPassword());
     }
 
-    @Transactional
     @Override
     public void delete(Long id,MemberDeleteRequestDto requestDto) {
         Member member = memberRepository.findMemberByIdOrElseThrow(id);

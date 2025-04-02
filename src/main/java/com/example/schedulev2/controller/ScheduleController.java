@@ -1,6 +1,7 @@
 package com.example.schedulev2.controller;
 
 import com.example.schedulev2.dto.schedule.ScheduleCreateRequestDto;
+import com.example.schedulev2.dto.schedule.ScheduleDeleteRequestDto;
 import com.example.schedulev2.dto.schedule.ScheduleResponseDto;
 import com.example.schedulev2.dto.schedule.ScheduleUpdateRequestDto;
 import com.example.schedulev2.service.ScheduleService;
@@ -56,8 +57,8 @@ public class ScheduleController {
 
 
     @DeleteMapping("/schedules/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        scheduleService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id, @RequestBody ScheduleDeleteRequestDto requestDto) {
+        scheduleService.delete(id,requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

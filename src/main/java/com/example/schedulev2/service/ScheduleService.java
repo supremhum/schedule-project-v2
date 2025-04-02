@@ -1,6 +1,7 @@
 package com.example.schedulev2.service;
 
 import com.example.schedulev2.dto.schedule.ScheduleCreateRequestDto;
+import com.example.schedulev2.dto.schedule.ScheduleDeleteRequestDto;
 import com.example.schedulev2.dto.schedule.ScheduleResponseDto;
 import com.example.schedulev2.dto.schedule.ScheduleUpdateRequestDto;
 
@@ -13,7 +14,7 @@ public interface ScheduleService {
 
     ScheduleResponseDto findById(Long id);
 
-    void delete(Long id);
+    void delete(Long id, ScheduleDeleteRequestDto requestDto);
 
     ScheduleResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto dto);
 }
