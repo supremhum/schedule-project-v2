@@ -1,9 +1,6 @@
 package com.example.schedulev2.controller;
 
-import com.example.schedulev2.dto.schedule.ScheduleCreateRequestDto;
-import com.example.schedulev2.dto.schedule.ScheduleDeleteRequestDto;
-import com.example.schedulev2.dto.schedule.ScheduleResponseDto;
-import com.example.schedulev2.dto.schedule.ScheduleUpdateRequestDto;
+import com.example.schedulev2.dto.schedule.*;
 import com.example.schedulev2.service.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,15 +26,19 @@ public class ScheduleController {
 
     }
 
+    // yyyy-mm-dd 까지만 표기
+    // 일정번호,작성자,제목,생성,수정일
     @GetMapping("/schedules")
     public ResponseEntity<List<ScheduleResponseDto>> findAll() {
         List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAll();
         return new ResponseEntity<>(scheduleResponseDtoList,HttpStatus.OK);
     }
 
+    // yyyy-mm-ddTHH:mm:ss.microsecond 표기
+    // 일정번호,작성자,이메일,제목,내용,생성,수정일
     @GetMapping("/schedules/{id}")
-    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable Long id) {
-        ScheduleResponseDto responseDto = scheduleService.findById(id);
+    public ResponseEntity<ScheduleDetailResponseDto> findById(@PathVariable Long id) {
+        ScheduleDetailResponseDto responseDto = scheduleService.findById(id);
         return new ResponseEntity<>(responseDto,HttpStatus.OK);
     }
 

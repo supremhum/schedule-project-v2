@@ -1,9 +1,6 @@
 package com.example.schedulev2.service;
 
-import com.example.schedulev2.dto.schedule.ScheduleCreateRequestDto;
-import com.example.schedulev2.dto.schedule.ScheduleDeleteRequestDto;
-import com.example.schedulev2.dto.schedule.ScheduleResponseDto;
-import com.example.schedulev2.dto.schedule.ScheduleUpdateRequestDto;
+import com.example.schedulev2.dto.schedule.*;
 import com.example.schedulev2.entity.Member;
 import com.example.schedulev2.entity.Schedule;
 import com.example.schedulev2.repository.MemberRepository;
@@ -39,7 +36,7 @@ public class ScheduleServiceImpl implements ScheduleService{
         // save 매서드 안에 이미 Transactional 이 붙어있어서 상단에 어노테이션이 필요 없는것
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
-        return new ScheduleResponseDto(savedSchedule.getId(),savedSchedule.getAuthor(),savedSchedule.getTitle(),savedSchedule.getDescription());
+        return ScheduleResponseDto.toDto(savedSchedule);
     }
 
     @Override
@@ -53,9 +50,10 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
-    public ScheduleResponseDto findById(Long id) {
+    public ScheduleDetailResponseDto findById(Long id) {
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
-        return new ScheduleResponseDto(findSchedule.getId(),findSchedule.getAuthor(),findSchedule.getTitle(),findSchedule.getDescription());
+
+        return ScheduleDetailResponseDto.toDtoV2(findSchedule,findSchedule.getMember().getEmail());
     }
 
 
@@ -70,7 +68,7 @@ public class ScheduleServiceImpl implements ScheduleService{
         }
         // 비밀번호가 맞았으니 수정이 들어간다
         findById.updateSchedule(dto.getTitle(),dto.getAuthor(),dto.getDescription());
-        return new ScheduleResponseDto(findById.getId(),findById.getAuthor(),findById.getTitle(),findById.getDescription());
+        return ScheduleResponseDto.toDto(findById);
 
     }
 

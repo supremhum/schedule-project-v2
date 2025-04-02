@@ -15,28 +15,16 @@ HTTP 요청과 응답, 코드의 기본 구조를 배워봅니다
 https://documenter.getpostman.com/view/43159046/2sAYkKJxer
 </details>
 
-<details><summary><span style="font-weight:BOLD; font-size:medium">(구) API 명세서</span></summary>
-
-| schedule                                                                             | Method | URL                 | request                                                                                 | response                                                                                                                          | 상태 코드  |
-|--------------------------------------------------------------------------------------| ------ | ------------------- | --------------------------------------------------------------------------------------- |-----------------------------------------------------------------------------------------------------------------------------------| ------ |
-| 일정 생성                                                                                | <span style="font-weight:BOLD">POST</span>   | /api/schedules      | 요청 body<br>{<br>"author":"작성자",<br>"title":"일정 제목",<br>"password":"qwer1234"<br>}       | 등록 정보                                                                                                                             | 200:OK |
-| 일정 조회 (전체)+<br>파라미터로 해당 값만 조회 가능<br>(author,title,id,updateDate,createDate,memberId) | <span style="color:BLUE">GET</span>| /api/schedules      | 요청 param (?속성명=값)                                                                                | 가까운 updateDate 순으로 응답body (반드시 배열형태로 반환)                                                                                          | 200:OK |
-| 일정 조회 (단일)                                                                           | <span style="color:BLUE">GET</span>      | /api/schedules/{id} | ~~요청 param~~                                                                                | 응답 body<br>{<br>"id":"id",<br>"author":"작성자",<br>"title":"일정 제목",<br>"createDate":"2025-03-20",<br>"updateDate":"2025-03-20"<br>} | 200:OK |
-| 일정 수정 (모든 속성)                                                                        | <span style="color:GREEN">PUT</span>    | /api/schedules/{id} | 요청 body<br>{<br>"author":"작성자 수정",<br>"title":"일정 제목 수정",<br>"password":"qwer1234"<br>} | 응답 body<br>{<br>"id":"id",<br>"author":"작성자 수정",<br>"title":"일정 제목 수정",<br>"createDate":"2025-03-20",<br>"updateDate":"요청날짜"<br>} | 200:OK |
-| 일정 수정 (제목 속성)                                                                        | PATCH  | /api/schedules/{id} | 요청 body<br>{<br>"title":"일정 제목 수정",<br>"password":"qwer1234"<br>}                       | 응답 body<br>{<br>"id":"id",<br>"author":"작성자",<br>"title":"일정 제목 수정",<br>"createDate":"2025-03-20",<br>"updateDate":"요청날짜"<br>}    | 200:OK |
-| 일정 삭제                                                                                | <span style="color:RED">DELETE</span>| /api/schedules/{id} | 요청 body<br>{<br>"password":"qwer1234"<br>}                                                                                | \-                                                                                                                                | 200:OK |
-
-</details>
 
 - 일정 생성(일정 작성하기)
-  - 멤버식별자, 할일, 작성자명, 비밀번호, 작성/수정일을 저장
+  - 멤버식별자, 작성자명(멤버 이름과는 다름), 제목, 내용, 작성/수정일을 저장
 - 멤버 생성
-  - 이름, 이메일, 생성/수정일을 저장
+  - 이름, 이메일(unique), 비밀번호, 생성/수정일을 저장
 - 각 일정의 고유 식별자(ID)를 자동으로 생성하여 관리
+- 일정:멤버 = many to one 구조
 - 최초 입력 시, 수정일은 작성일과 동일
 - 선택한 일정 단건(ID를 통한)의 정보를 조회할 수 있습니다.
 - 멤버 식별자로 생성한 일정을 조회할 수 있습니다.
-
 
 - PUT,PATCH,DELETE 의 수정,삭제의 경우 비밀번호가 동일해야 기능을 수행합니다
 
@@ -53,45 +41,48 @@ https://documenter.getpostman.com/view/43159046/2sAYkKJxer
 <details><summary><span style="font-weight:BOLD; font-size:medium">구조</span></summary>
 
 ```
-ScheduleProject-dev/
-├── .gitattributes
-├── .gitignore
-├── build.gradle  # 의존성 및 라이브러리 관리
-├── gradle/
-│   └── wrapper/
-│       ├── gradle-wrapper.jar
-│       └── gradle-wrapper.properties
-├── gradlew
-├── gradlew.bat
-├── schedule.sql  # DB에서 사용한 query문 모음
+scheduleV2
+├── HELP.md
+├── README.MD
+├── schedule.sql
 ├── settings.gradle
-└── src/
-    ├── main/
-    │     └── java/com/example/scheduleproject/
-    │          ┌──────────────────────────┘ 
-    │          ├── ScheduleProjectApplication.java  # 메인 실행 파일
-    │          ├── controller/
-    │          │   └── ScheduleController.java  # HTTP 요청과 응답을 컨트롤
-    │          ├── dto/
-    │          │   ├── ScheduleRequestDto.java  # service layer간 일정 정보 전달자 
-    │          │   ├── ScheduleResponseDto.java  # service layer간 일정 정보 전달자
-    │          │   ├── MemberRequestDto.java  # service layer간 멤버 정보 전달자 
-    │          │   └── MemberResponseDto.java  # service layer간 멤버 정보 전달자
-    │          ├── entity/
-    │          │   ├── Schedule.java  # 일정 Entity
-    │          │   └── Member.java  # 멤버 Entity
-    │          ├── repository/
-    │          │   ├── JdbcTemplateScheduleRepository.java  # DB 와 Entity간 상호작용
-    │          │   └── ScheduleRepository.java
-    │          ├── service/
-    │          │   ├── ScheduleService.java
-    │          │   └── ScheduleServiceImpl.java  # 비지니스 로직을 수행
-    │          └── resources/
-    │                  └── application.properties  # mySQL 연결 정보 기입
-    └── test/
-         └── java/com/example/scheduleproject/
-            ┌───────────────────────┘  
-            └── ScheduleProjectApplicationTests.java
+└── src
+    └── main
+        ├── java
+        │   └── com.example.schedulev2
+        │       ├── ScheduleV2Application.java  # 메인 실행 파일
+        │       ├── controller  # Http 요청 응답 컨트롤러
+        │       │   ├── MemberController.java
+        │       │   └── ScheduleController.java
+        │       ├── dto
+        │       │   ├── member  # member CRUD 관련 Dto
+        │       │   │   ├── MemberRequestDto.java
+        │       │   │   ├── MemberResponseDto.java
+        │       │   │   ├── MemberSearchRequestDto.java
+        │       │   │   ├── MemberUpdateRequestDto.java
+        │       │   │   └── PasswordUpdateRequestDto.java
+        │       │   └── schedule  # schdule CRUD 관련 Dto
+        │       │       ├── CreateScheduleRequestDto.java
+        │       │       ├── ScheduleDeleteRequestDto.java
+        │       │       ├── ScheduleRequestDto.java
+        │       │       ├── ScheduleResponseDto.java
+        │       │       └── ScheduleUpdateRequestDto.java
+        │       ├── entity  # DB 정보의 객체화
+        │       │   ├── BaseEntity.java  # 공통관심사항인 생성일과 수정일
+        │       │   ├── Member.java
+        │       │   └── Schedule.java 
+        │       ├── repository  # Jpa 인터페이스를 상속
+        │       │   ├── MemberRepository.java
+        │       │   └── ScheduleRepository.java
+        │       └── service  # 로직 수행단
+        │           ├── MemberService.java
+        │           ├── MemberServiceImpl.java
+        │           ├── ScheduleService.java
+        │           └── ScheduleServiceImpl.java
+        └── resources
+            ├── application.properties  # DB 연동 설정과 Jpa hibernate 설정 
+            ├── static
+            └── templates
 ```
 </details>
 

@@ -1,9 +1,6 @@
 package com.example.schedulev2.service;
 
-import com.example.schedulev2.dto.schedule.ScheduleCreateRequestDto;
-import com.example.schedulev2.dto.schedule.ScheduleDeleteRequestDto;
-import com.example.schedulev2.dto.schedule.ScheduleResponseDto;
-import com.example.schedulev2.dto.schedule.ScheduleUpdateRequestDto;
+import com.example.schedulev2.dto.schedule.*;
 
 import java.util.List;
 
@@ -12,7 +9,7 @@ public interface ScheduleService {
 
     List<ScheduleResponseDto> findAll();
 
-    ScheduleResponseDto findById(Long id);
+    ScheduleDetailResponseDto findById(Long id);
 
     void delete(Long id, ScheduleDeleteRequestDto requestDto);
 
