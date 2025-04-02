@@ -55,7 +55,7 @@ public class ScheduleController {
         return new ResponseEntity<>(responseDto,HttpStatus.OK);
     }
 
-
+    // id에 해당하는 일정 삭제. 비밀번호 필요
     @DeleteMapping("/schedules/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id, @RequestBody ScheduleDeleteRequestDto requestDto) {
         scheduleService.delete(id,requestDto);
