@@ -29,6 +29,14 @@ public class Member extends BaseEntity{
         this.password=password;
     }
 
+    // 로그인을 위한 생성자
+    public Member(Long id,String email,String password,String name) {
+        this.id=id;
+        this.name=name;
+        this.email=email;
+        this.password=password;
+    }
+
     public Member() {
     }
 

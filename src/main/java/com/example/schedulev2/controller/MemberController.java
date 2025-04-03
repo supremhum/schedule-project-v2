@@ -27,6 +27,14 @@ public class MemberController {
         return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
 
     }
+    @PostMapping("/signip")
+    public ResponseEntity<SignUpResponseDto> signIn(@Valid @RequestBody SignUpRequestDto requestDto) {
+
+        SignUpResponseDto signUpResponseDto = memberService.signUp(requestDto);
+
+        return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
+
+    }
 
 //    // 이름과 이메일만 나오게 한다
 //    @GetMapping("/members")
