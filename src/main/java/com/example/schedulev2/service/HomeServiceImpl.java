@@ -1,5 +1,6 @@
 package com.example.schedulev2.service;
 
+import com.example.schedulev2.dto.member.SignInRequestDto;
 import com.example.schedulev2.dto.member.SignInResponseDto;
 import com.example.schedulev2.entity.Member;
 import com.example.schedulev2.repository.HomeRepository;
@@ -23,5 +24,14 @@ public class HomeServiceImpl implements HomeService {
         }
 
         return new SignInResponseDto(findMember.get().getEmail(),memberId);
+    }
+
+    @Override
+    public SignInResponseDto signIn(SignInRequestDto requestDto) {
+        Optional<Member> findMember = homeRepository.findMemberByEmailAndPassword(requestDto.getEmail(),requestDto.getPassword());
+        if (findMember.isEmpty()){
+            return null;
+        }
+        return new SignInResponseDto(findMember.get().getEmail(),findMember.get().getId());
     }
 }
