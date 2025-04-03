@@ -39,7 +39,7 @@ public class MemberController {
 //        return new ResponseEntity<>(findAllList,HttpStatus.OK);
 //    }
 
-    // 이름과 이메일과 아이디를 query param으로 받아 검색할 수 있다. 없으면 findAll 이고 반환은 이름과 이메일만.
+    // 이름과 이메일을 query param으로 받아 검색할 수 있다. 없으면 findAll 이고 반환은 이름과 이메일만.
     @GetMapping("/members")
     public ResponseEntity<List<MemberResponseDto>> search(MemberSearchRequestDto dto) {
         List<MemberResponseDto> findAllList = memberService.search(dto);
