@@ -32,7 +32,7 @@ public class HomeController {
     {
         // 이부분은 쿠키에 값이 있는지 없는지 판별. 쿠키에 값이 없으면 로그인요청입니다
         if(memberId == null) {
-            return "signInPage";
+            return "signInPage-noCookie";
         }
 
         // 쿠키에 값이 있는경우니 그 값이 실제 DB에 있는지 확인해봅시다
@@ -42,7 +42,7 @@ public class HomeController {
 
         // 멤버를 찾을수 없다면 해당 아이디의 멤버가 없는 경우니 로그인페이지로 돌아감
         if(findMember == null) {
-            return "signInPage";
+            return "signInPage-notExist";
         }
 
         // 쿠키의 멤버id가 정상적인경우까지 왔으니 홈페이지로 반환

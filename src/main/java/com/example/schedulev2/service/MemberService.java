@@ -19,5 +19,4 @@ public interface MemberService {
 
     void delete(Long id,MemberDeleteRequestDto requestDto);
 
-//    SignInResponseDto signIn(SignInRequestDto requestDto);
 }
