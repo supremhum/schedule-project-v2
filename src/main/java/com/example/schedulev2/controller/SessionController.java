@@ -3,12 +3,10 @@ package com.example.schedulev2.controller;
 import com.example.schedulev2.dto.member.SignInRequestDto;
 import com.example.schedulev2.dto.member.SignInResponseDto;
 import com.example.schedulev2.service.HomeService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -79,6 +77,19 @@ public class SessionController {
 
         // 세션정보로 해당멤버를 잘 찾았으니 홈페이지 반환
         return "seshon-homePage";
+    }
+
+    @GetMapping("/homev2")
+    public String homeV2 (
+            // @SessionAttribute 는 세션을 찾는것만 해주는 어노테이션.
+            // required : 필수값이냐 설정
+            @SessionAttribute(name = "SIGNIN_MEMBER",required = false) SignInResponseDto responseDto
+            ) {
+        if (responseDto == null) {
+            return "seshon-signInPage-noSession-v2";
+        }
+
+        return "seshon-homePage-v2";
     }
 
 }
