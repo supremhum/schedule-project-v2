@@ -31,7 +31,7 @@ public class MemberController {
     }
 
     // 로그인 기능 만들기
-    @PostMapping("/signip")
+    @PostMapping("/signin")
     public String signIn(
             @Valid @RequestBody SignInRequestDto requestDto,
 
@@ -63,8 +63,21 @@ public class MemberController {
         response.addCookie(cookie);
 
         // 완료되었으니 홈으로 이동
-        return "redirect:/Home";
+        return "redirect:/home";
 
+    }
+
+    // 로그아웃 기능
+    // 논리는 HttpServletResponse 에 바로 꺼지는 쿠키로 덮어씌우기
+    @PostMapping("/signout")
+    public String signOut (HttpServletResponse response) {
+        // memberId 사라지게 만들고
+        Cookie cookie = new Cookie("memberId",null);
+        // 바로 꺼지는 쿠키로 덮기
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return "redirect:/home";
     }
 
 //    // 이름과 이메일만 나오게 한다
