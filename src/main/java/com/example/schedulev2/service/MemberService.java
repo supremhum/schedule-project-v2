@@ -1,6 +1,7 @@
 package com.example.schedulev2.service;
 
 import com.example.schedulev2.dto.member.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface MemberService {
     MemberResponseDto updateById(Long id, MemberUpdateRequestDto requestDto);
 
     void delete(Long id,MemberDeleteRequestDto requestDto);
+
+    SignInResponseDto signIn(SignInRequestDto requestDto);
 }

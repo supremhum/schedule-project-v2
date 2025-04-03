@@ -37,6 +37,11 @@ public class MemberServiceImpl implements MemberService{
         return new SignUpResponseDto(saveMember.getId(), saveMember.getEmail(), saveMember.getName());
     }
 
+    @Override
+    public SignInResponseDto signIn(SignInRequestDto requestDto) {
+        return null;
+    }
+
 //    @Override
 //    public List<MemberResponseDto> findAll() {
 //        return memberRepository.findAll()
