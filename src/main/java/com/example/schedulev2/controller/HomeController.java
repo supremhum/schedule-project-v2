@@ -82,7 +82,7 @@ public class HomeController {
         response.addCookie(cookie);
 
         // 완료되었으니 홈으로 이동
-        return "redirect:/home";
+        return "redirect:/homePage";
 
     }
 
@@ -96,7 +96,7 @@ public class HomeController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
 
-        return "redirect:/home";
+        return "redirect:/homePage";
     }
 
 }
