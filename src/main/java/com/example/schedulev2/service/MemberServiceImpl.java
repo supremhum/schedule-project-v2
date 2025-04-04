@@ -37,6 +37,8 @@ public class MemberServiceImpl implements MemberService{
         return new SignUpResponseDto(saveMember.getId(), saveMember.getEmail(), saveMember.getName());
     }
 
+
+
 //    @Override
 //    public List<MemberResponseDto> findAll() {
 //        return memberRepository.findAll()
@@ -47,17 +49,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public List<MemberResponseDto> search(MemberSearchRequestDto dto) {
-        Specification<Member> spec = (root, query, cb) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            if (StringUtils.hasText(dto.getEmail())) {
-                predicates.add(cb.equal(root.get("email"), dto.getEmail()));
-            }
-            if (StringUtils.hasText(dto.getName())) {
-                predicates.add(cb.equal(root.get("name"), dto.getName()));
-            }
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-        List<Member> members = memberRepository.findAll(spec);
+        List<Member> members = memberRepository.search(dto.getEmail(), dto.getName());
         return members.stream()
                 .map(MemberResponseDto::new)
                 .collect(Collectors.toList());

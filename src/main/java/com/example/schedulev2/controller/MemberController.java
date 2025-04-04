@@ -3,6 +3,8 @@ package com.example.schedulev2.controller;
 
 import com.example.schedulev2.dto.member.*;
 import com.example.schedulev2.service.MemberService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,13 +22,15 @@ public class MemberController {
 
     // 가입. 이메일, 비밀번호,
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto requestDto) {
+    public ResponseEntity<SignUpResponseDto> signUp(@Valid @RequestBody SignUpRequestDto requestDto) {
 
         SignUpResponseDto signUpResponseDto = memberService.signUp(requestDto);
 
         return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
 
     }
+
+
 
 //    // 이름과 이메일만 나오게 한다
 //    @GetMapping("/members")
@@ -35,7 +39,7 @@ public class MemberController {
 //        return new ResponseEntity<>(findAllList,HttpStatus.OK);
 //    }
 
-    // 이름과 이메일과 아이디를 query param으로 받아 검색할 수 있다. 없으면 findAll 이고 반환은 이름과 이메일만.
+    // 이름과 이메일을 query param으로 받아 검색할 수 있다. 없으면 findAll 이고 반환은 이름과 이메일만.
     @GetMapping("/members")
     public ResponseEntity<List<MemberResponseDto>> search(MemberSearchRequestDto dto) {
         List<MemberResponseDto> findAllList = memberService.search(dto);
